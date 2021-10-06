@@ -8,6 +8,11 @@ public class PlayerController : MonoBehaviour
     public float speed;
     Rigidbody2D rigidbody;
 
+    // Animaciones
+    public Animator animator;
+    private Vector2 ultimaDireccion;    // Guarda la ultima direccion para elegir el idle
+    private Vector2 movimiento;
+
     // Ataque
     public GameObject spellPrefab;
     public float spellSpeed;
@@ -33,7 +38,19 @@ public class PlayerController : MonoBehaviour
     {
         // Movimiento del personaje: datos
         float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical"); 
+        float vertical = Input.GetAxis("Vertical");
+
+        // Comprueba si debe guardar la ultima direccion de movimiento
+        if ((horizontal == 0 && vertical == 0) && movimiento.x != 0 || movimiento.y != 0)
+        {
+            ultimaDireccion = movimiento;
+        }
+
+        // Guarda el movimiento en un vector
+        movimiento = new Vector2(horizontal, vertical);
+
+        // Animacion del personaje
+        Animate();
 
         // Ataque del personaje
         float shootHorizontal = Input.GetAxis("ShootHorizontal");
@@ -73,6 +90,16 @@ public class PlayerController : MonoBehaviour
         // De esta manera el jugador no supera su vida maxima
         currentHealth = Mathf.Min(maxHealth, currentHealth + healAmount);
         healthBar.SetHealth(currentHealth);
+    }
+
+    void Animate()
+    {
+        // Animacion del personaje
+        animator.SetFloat("Horizontal", movimiento.x);
+        animator.SetFloat("Vertical", movimiento.y);
+        animator.SetFloat("Magnitude", movimiento.magnitude);
+        animator.SetFloat("UltimaDirHorizontal", ultimaDireccion.x);
+        animator.SetFloat("UltimaDirVertical", ultimaDireccion.y);
     }
 
 }
