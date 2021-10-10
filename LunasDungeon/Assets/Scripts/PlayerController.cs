@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     private Vector2 ultimaDireccion;    // Guarda la ultima direccion para elegir el idle
     private Vector2 movimiento;
+    private Vector2 ataque;
 
     // Ataque
     public GameObject spellPrefab;
@@ -49,18 +50,21 @@ public class PlayerController : MonoBehaviour
         // Guarda el movimiento en un vector
         movimiento = new Vector2(horizontal, vertical);
 
-        // Animacion del personaje
-        Animate();
-
-        // Ataque del personaje
+        // Ataque del personaje: datos
         float shootHorizontal = Input.GetAxis("ShootHorizontal");
-        float shootVertical = Input.GetAxis("ShootVertical"); 
+        float shootVertical = Input.GetAxis("ShootVertical");
+        ataque = new Vector2(shootHorizontal, shootVertical);
+
         // Controla los disparos del personaje para que transcurra el tiempo adecuado entre disparo y disparo
         if ((shootHorizontal != 0 || shootVertical != 0) && (Time.time > lastFire + fireDelay)) 
         {
             Shoot(shootHorizontal, shootVertical);
             lastFire = Time.time;
         }
+
+        // Animacion del personaje
+        Animate();
+
         // Movimiento del personaje: accion
         rigidbody.velocity = new Vector2(horizontal * speed, vertical * speed);
     }
@@ -100,6 +104,9 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("Magnitude", movimiento.magnitude);
         animator.SetFloat("UltimaDirHorizontal", ultimaDireccion.x);
         animator.SetFloat("UltimaDirVertical", ultimaDireccion.y);
+        animator.SetFloat("AttackHorizontal", ataque.x);
+        animator.SetFloat("AttackVertical", ataque.y);
+        animator.SetFloat("AttackMagnitude", ataque.magnitude);
     }
 
 }
