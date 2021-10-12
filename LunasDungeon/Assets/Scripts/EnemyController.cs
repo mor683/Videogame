@@ -9,14 +9,18 @@ public enum EnemyState
     Follow,
     Die,
     Attack
-};
+}; 
 
 public class EnemyController : MonoBehaviour
 {
 
     GameObject player;
     public EnemyState currentState = EnemyState.Wander;
-    
+
+    // Animaciones
+    public Animator animator;
+    private Vector2 movimiento;
+
     public float range; // rango en el que el enemigo nos puede ver
     public float speed;
     public float coolDown;
@@ -26,22 +30,21 @@ public class EnemyController : MonoBehaviour
     public float attackRange;
     public int baseDamage = 10;
 
-    // Variables que sirven para que el enemigo avance hacia una direccion aleatoria (pulule)
-    private bool chooseDir = false;
-    private Vector3 randomDirection;
-
-    private bool dead = false;
+    private Vector3 randomDirection;    // Direccion aleatoria a la que avanza el enemigo en Wander
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        PositionChange();
     }
 
     // Update is called once per frame
     void Update()
     {
-        switch(currentState)
+        Animate();  // Animacion del enemigo
+
+        switch (currentState)
         {
             case(EnemyState.Wander):
                 Wander();
@@ -72,39 +75,16 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    // Calcula la distancia entre el enemigo y el jugador y devuelve si esta en rango o no
-    private bool IsPlayerInRange(float range) 
-    {
-        return Vector3.Distance(transform.position, player.transform.position) <= range;
-    }
-
-    // Corrutina: funcion que tiene la habilidad de pausar su ejecucion y devolver el control a
-    // Unity para luego continuar donde lo dejo en el siguiente frame.
-    private IEnumerator ChooseDirection()
-    {
-        chooseDir = true;
-        // cambiara la direccion en la que se mueve en un tiempo aleatorio entre 2 y 5 segundos
-        yield return new WaitForSeconds(Random.Range(2f, 5f));
-        // Escoge una nueva direccion 
-        randomDirection = new Vector3(0, 0, Random.Range(0, 360));
-        // Los cuarteniones sirven para representar las rotaciones en Unity
-        // Quaternion.Euler retorna una rotacion basada en la direccion aleatoria que hemos calculado previamente
-        Quaternion nextRotation = Quaternion.Euler(randomDirection);
-        // Realiza la rotacion desde el punto de partida hasta la proxima rotacion a una velocidad, en este caso, aleatoria
-        transform.rotation = Quaternion.Lerp(transform.rotation, nextRotation, Random.Range(0.5f, 2.5f));
-        chooseDir = false;
-    }
-
     void Wander()
     {
-        // Si no ha elegido una direccion, la elige
-        if(!chooseDir)
+        // Si ya ha alcanzado la posicion elegida, elige una nueva
+        if (Vector2.Distance(transform.position, randomDirection) < 1)
         {
-            StartCoroutine(ChooseDirection());
+            PositionChange();
         }
 
         // Actualizamos la posicion
-        transform.position += -transform.right * speed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, randomDirection, speed * Time.deltaTime);
 
         // Si el jugador esta en el rango le persigue
         if (IsPlayerInRange(range)) 
@@ -113,10 +93,22 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    // Toma una nueva posicion destino a la que deambular
+    void PositionChange()
+    {
+        randomDirection = new Vector2(Random.Range(-5.0f, 5.0f), Random.Range(-5.0f, 5.0f));
+    }
+
+    // Calcula la distancia entre el enemigo y el jugador y devuelve si esta en rango o no
+    private bool IsPlayerInRange(float range)
+    {
+        return Vector3.Distance(transform.position, player.transform.position) <= range;
+    }
+
     void Follow() 
     {
         // El enemigo se mueve desde su posicion hacia la del jugador a una velocidad determinada
-        transform.position = Vector2.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime * 2);
     }
 
     public void Death()
@@ -143,5 +135,12 @@ public class EnemyController : MonoBehaviour
         coolDownAttack = true;
         yield return new WaitForSeconds(coolDown);
         coolDownAttack = false;
+    }
+
+    // Animacion del personaje
+    void Animate()
+    {
+        //animator.SetFloat("Horizontal", movimiento.x);
+        //animator.SetFloat("Vertical", movimiento.y);
     }
 }

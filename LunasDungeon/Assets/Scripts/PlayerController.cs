@@ -96,9 +96,9 @@ public class PlayerController : MonoBehaviour
         healthBar.SetHealth(currentHealth);
     }
 
+    // Animacion del personaje
     void Animate()
     {
-        // Animacion del personaje
         animator.SetFloat("Horizontal", movimiento.x);
         animator.SetFloat("Vertical", movimiento.y);
         animator.SetFloat("Magnitude", movimiento.magnitude);
