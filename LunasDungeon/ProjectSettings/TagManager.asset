@@ -39,6 +39,12 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Behind
+    uniqueID: 2018309593
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Door
+    uniqueID: 1380216171
     locked: 0
