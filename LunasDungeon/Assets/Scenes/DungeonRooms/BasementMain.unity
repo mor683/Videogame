@@ -857,8 +857,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  animator: {fileID: 0}
-  range: 8
+  animator: {fileID: 1912186658}
+  range: 9
   speed: 1
   coolDown: 1
   whatIsPlayer:

@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     // Personaje
     public float speed;
-    Rigidbody2D rigidbody;
+    new Rigidbody2D rigidbody;
 
     // Animaciones
     public Animator animator;

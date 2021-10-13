@@ -19,7 +19,7 @@ public class EnemyController : MonoBehaviour
 
     // Animaciones
     public Animator animator;
-    private Vector2 movimiento;
+    private float oldPos = 0.0f;
 
     public float range; // rango en el que el enemigo nos puede ver
     public float speed;
@@ -36,7 +36,8 @@ public class EnemyController : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        PositionChange();
+        oldPos = transform.position.x;  // Actualiza la ultima posicion
+        PositionChange();               // Elige una nueva direccion a la que ir
     }
 
     // Update is called once per frame
@@ -140,7 +141,14 @@ public class EnemyController : MonoBehaviour
     // Animacion del personaje
     void Animate()
     {
-        //animator.SetFloat("Horizontal", movimiento.x);
-        //animator.SetFloat("Vertical", movimiento.y);
+        float currentPosition = transform.position.x;   // Lee la posicion actual
+        if (oldPos < currentPosition)
+        {
+            animator.SetFloat("Horizontal", 1);         // Se mueve a la derecha
+        } else
+        {
+            animator.SetFloat("Horizontal", 0);         // Se mueve a la izquierda
+        }
+        oldPos = currentPosition;                       // Actualiza la ultima posicion
     }
 }
