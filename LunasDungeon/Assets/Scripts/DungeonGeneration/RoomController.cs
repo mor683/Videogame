@@ -14,15 +14,11 @@ public class RoomInfo
 public class RoomController : MonoBehaviour
 {
     public static RoomController instance;
-
     string currentWorldName = "Basement";
-
     RoomInfo currentLoadRoomData;
-
+    Room currentRoom;
     Queue<RoomInfo> loadRoomQueue = new Queue<RoomInfo>();
-
     public List<Room> loadedRooms = new List<Room>();
-
     bool isLoadingRoom = false;
 
     void Awake()
@@ -46,7 +42,7 @@ public class RoomController : MonoBehaviour
 
     void UpdateRoomQueue()
     {
-        if (isLoadingRoom)
+        if(isLoadingRoom)
         {
             return;
         }
@@ -62,11 +58,6 @@ public class RoomController : MonoBehaviour
         StartCoroutine(LoadRoomRoutine(currentLoadRoomData));
     }
 
-    public bool DoesRoomExist(int x, int y)
-    {
-        return loadedRooms.Find(item => item.X == x && item.Y == y) != null;
-    }
-
     public void LoadRoom(string name, int x, int y)
     {
         if (DoesRoomExist(x,y))
@@ -78,14 +69,12 @@ public class RoomController : MonoBehaviour
         newRoomData.name = name;
         newRoomData.X = x;
         newRoomData.Y = y;
-
         loadRoomQueue.Enqueue(newRoomData);
     }
 
     IEnumerator LoadRoomRoutine(RoomInfo info)
     {
         string roomName = currentWorldName + info.name;
-
         AsyncOperation loadRoom = SceneManager.LoadSceneAsync(roomName, LoadSceneMode.Additive);
 
         while (loadRoom.isDone == false)
@@ -105,10 +94,29 @@ public class RoomController : MonoBehaviour
         room.name = currentWorldName + "-" + currentLoadRoomData.name + 
             " " + room.X + ", " + room.Y;
         room.transform.parent = transform;
-
+        
         isLoadingRoom = false;
 
-        loadedRooms.Add(room);
+        if (loadedRooms.Count == 0)
+        {
+            if (CameraController.instance == null)
+            {
+                Debug.Log("La instancia es nula");
+            }
+            CameraController.instance.currentRoom = room;
+        }
 
+        loadedRooms.Add(room);
+    }
+
+    public bool DoesRoomExist(int x, int y)
+    {
+        return loadedRooms.Find(item => item.X == x && item.Y == y) != null;
+    }
+
+    public void OnPlayerEnterRoom (Room room)
+    {
+        CameraController.instance.currentRoom = room;
+        currentRoom = room;
     }
 }
