@@ -28,11 +28,12 @@ public class RoomController : MonoBehaviour
 
     void Start()
     {
-        LoadRoom("Start", 0, 0);
+        /*LoadRoom("Start", 0, 0);
         LoadRoom("Empty", 1, 0);
         LoadRoom("Empty", -1, 0);
         LoadRoom("Empty", 0, 1);
-        LoadRoom("Empty", 0, -1);
+        LoadRoom("Empty", 0, -1);*/
+
     }
 
     void Update()
@@ -85,33 +86,47 @@ public class RoomController : MonoBehaviour
 
     public void RegisterRoom (Room room)
     {
-        room.transform.position = new Vector3(
+        if (!DoesRoomExist(currentLoadRoomData.X, currentLoadRoomData.Y))
+        {
+            room.transform.position = new Vector3(
             currentLoadRoomData.X * room.Width,
             currentLoadRoomData.Y * room.Height, 0);
 
-        room.X = currentLoadRoomData.X;
-        room.Y = currentLoadRoomData.Y;
-        room.name = currentWorldName + "-" + currentLoadRoomData.name + 
-            " " + room.X + ", " + room.Y;
-        room.transform.parent = transform;
-        
-        isLoadingRoom = false;
+            room.X = currentLoadRoomData.X;
+            room.Y = currentLoadRoomData.Y;
+            room.name = currentWorldName + "-" + currentLoadRoomData.name +
+                " " + room.X + ", " + room.Y;
+            room.transform.parent = transform;
 
-        if (loadedRooms.Count == 0)
-        {
-            if (CameraController.instance == null)
+            isLoadingRoom = false;
+
+            if (loadedRooms.Count == 0)
             {
-                Debug.Log("La instancia es nula");
+                if (CameraController.instance == null)
+                {
+                    Debug.Log("La instancia es nula");
+                }
+                CameraController.instance.currentRoom = room;
             }
-            CameraController.instance.currentRoom = room;
-        }
 
-        loadedRooms.Add(room);
+            loadedRooms.Add(room);
+            room.RemoveUnconnectedDoors();
+        }
+        else
+        {
+            Destroy(room.gameObject);
+            isLoadingRoom = false;
+        }
     }
 
     public bool DoesRoomExist(int x, int y)
     {
         return loadedRooms.Find(item => item.X == x && item.Y == y) != null;
+    }
+
+    public Room FindRoom(int x, int y)
+    {
+        return loadedRooms.Find(item => item.X == x && item.Y == y);
     }
 
     public void OnPlayerEnterRoom (Room room)
