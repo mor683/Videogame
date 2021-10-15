@@ -9,6 +9,13 @@ public class Room : MonoBehaviour
     public int Height;
     public int X;
     public int Y;
+    private bool updatedDoors = false;
+
+    public Room(int x, int y)
+    {
+        X = x;
+        Y = y;
+    }
 
     public Door leftDoor;
     public Door rightDoor;
@@ -87,6 +94,15 @@ public class Room : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if (name.Contains("End") && !updatedDoors)
+        {
+            RemoveUnconnectedDoors();
+            updatedDoors = true;
+        }
+    }
+
     public Room GetRight()
     {
         if (RoomController.instance.DoesRoomExist(X+1, Y))
@@ -96,7 +112,6 @@ public class Room : MonoBehaviour
         return null;
     }
     
-
     public Room GetLeft()
     {
         if (RoomController.instance.DoesRoomExist(X-1, Y))
