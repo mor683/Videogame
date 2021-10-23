@@ -642,7 +642,7 @@ MonoBehaviour:
   animator: {fileID: 1606714775}
   spellPrefab: {fileID: 6650741325979419578, guid: b8cba99bf056c6642920b312470331ba, type: 3}
   spellSpeed: 15
-  fireDelay: 0.5
+  fireDelay: 0.4
   maxHealth: 100
   currentHealth: 0
   healthBar: {fileID: 600594058}
@@ -706,7 +706,7 @@ Transform:
   m_GameObject: {fileID: 1606714769}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.0266, y: 0, z: 0}
-  m_LocalScale: {x: 1.9748, y: 2, z: 2}
+  m_LocalScale: {x: 1.4, y: 1.4, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -955,7 +955,7 @@ Transform:
   m_GameObject: {fileID: 1912186652}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.502404, y: -2.3557692, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1.4, y: 1.3, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
