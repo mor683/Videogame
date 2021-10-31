@@ -11,11 +11,18 @@ public enum EnemyState
     Attack
 }; 
 
+public enum EnemyType
+{
+    Melee,
+    Ranged
+};
+
 public class EnemyController : MonoBehaviour
 {
 
     GameObject player;
     public EnemyState currentState = EnemyState.Wander;
+    public EnemyType enemyType;
 
     // Animaciones
     public Animator animator;
@@ -31,6 +38,7 @@ public class EnemyController : MonoBehaviour
     public int baseDamage = 10;
 
     private Vector3 randomDirection;    // Direccion aleatoria a la que avanza el enemigo en Wander
+    public GameObject spellPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -121,12 +129,26 @@ public class EnemyController : MonoBehaviour
     {
         if (!coolDownAttack)
         {
-            Collider2D[] playerToDamage = Physics2D.OverlapCircleAll(transform.position, attackRange, whatIsPlayer);
-            for (int i = 0; i < playerToDamage.Length; i++)
+            switch(enemyType)
             {
-                playerToDamage[i].GetComponent<PlayerController>().TakeDamage(baseDamage);
+                case (EnemyType.Melee):
+                    Collider2D[] playerToDamage = Physics2D.OverlapCircleAll(transform.position, attackRange, whatIsPlayer);
+                    for (int i = 0; i < playerToDamage.Length; i++)
+                    {
+                        playerToDamage[i].GetComponent<PlayerController>().TakeDamage(baseDamage);
+                    }
+                    StartCoroutine(CoolDown());
+                    break;
+
+                case (EnemyType.Ranged):
+                    // Crea un hechizo en la posicion del enemigo
+                    GameObject spell = Instantiate(spellPrefab, transform.position, Quaternion.identity) as GameObject;
+                    spell.GetComponent<SpellController>().GetPlayer(player.transform);
+                    spell.AddComponent<Rigidbody2D>().gravityScale = 0;
+                    spell.GetComponent<SpellController>().isEnemySpell = true;
+                    StartCoroutine(CoolDown());
+                    break;
             }
-            StartCoroutine(CoolDown());
         }
     }
 

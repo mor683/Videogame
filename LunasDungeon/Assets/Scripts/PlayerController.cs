@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     // Personaje
     public float speed;
     new Rigidbody2D rigidbody;
+    public Text collectedText;
+    public static int collectedAmount = 0;
 
     // Animaciones
     public Animator animator;
@@ -37,6 +40,10 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Cambios referidos a la recolección de items
+        fireDelay = GameController.AttackRate;
+        speed = GameController.MoveSpeed;
+
         // Movimiento del personaje: datos
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
