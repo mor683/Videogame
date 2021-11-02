@@ -33,7 +33,7 @@ public class CollectionController : MonoBehaviour
             GameController.MoveSpeedChange(moveSpeedChange);
             GameController.AttackRateChange(attackSpeedChange);
             GameController.SpellSizeChange(spellSizeChange);
-            GameController.instance.UpdateCollectedItems(this);
+            //GameController.instance.UpdateCollectedItems(this);
             Destroy(gameObject);
         }
     }
