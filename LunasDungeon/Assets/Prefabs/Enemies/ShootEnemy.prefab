@@ -136,7 +136,7 @@ MonoBehaviour:
     m_Bits: 8
   attackRange: 6
   baseDamage: 30
-  spellPrefab: {fileID: 6650741325979419578, guid: b8cba99bf056c6642920b312470331ba, type: 3}
+  spellPrefab: {fileID: 6650741325979419578, guid: 2fc7b94dfaaa50041bb15bd0cffdb225, type: 3}
 --- !u!50 &5951271481333845884
 Rigidbody2D:
   serializedVersion: 4
