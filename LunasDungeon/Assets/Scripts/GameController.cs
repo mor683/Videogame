@@ -15,10 +15,10 @@ public class GameController : MonoBehaviour
     private static float attackRate = 0.5f;
     public static float spellSize = 0.5f;
 
-    private bool cauldronCollected = false;
-    private bool wandCollected = false;
+    //private bool cauldronCollected = false;
+    //private bool wandCollected = false;
 
-    public List<string> collectedNames = new List<string>();
+    //public List<string> collectedNames = new List<string>();
 
     // Propiedades
     public static float Health { get => health; set => health = value; }
@@ -73,7 +73,7 @@ public class GameController : MonoBehaviour
         spellSize += size;
     }
 
-    public void UpdateCollectedItems(CollectionController item)
+    /*public void UpdateCollectedItems(CollectionController item)
     {
         collectedNames.Add(item.item.name);
 
@@ -94,7 +94,7 @@ public class GameController : MonoBehaviour
         {
             AttackRateChange(0.25f);
         }
-    }
+    }*/
 
     private static void KillPlayer()
     {

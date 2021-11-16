@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
@@ -155,6 +154,15 @@ public class RoomController : MonoBehaviour
     public Room FindRoom(int x, int y)
     {
         return loadedRooms.Find(item => item.X == x && item.Y == y);
+    }
+
+    public string GetRandomRoomName()
+    {
+        string[] posibleRooms = new string[]
+        {
+            "Empty", "Basic"
+        };
+        return posibleRooms[Random.Range(0, posibleRooms.Length)];
     }
 
     public void OnPlayerEnterRoom (Room room)

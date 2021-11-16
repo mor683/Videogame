@@ -566,6 +566,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  collectedText: {fileID: 0}
   animator: {fileID: 1606714775}
   spellPrefab: {fileID: 6650741325979419578, guid: b8cba99bf056c6642920b312470331ba, type: 3}
   spellSpeed: 7.5
@@ -812,6 +813,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  enemyType: 0
+  animator: {fileID: 0}
   range: 10
   speed: 1
   coolDown: 1
@@ -820,6 +823,7 @@ MonoBehaviour:
     m_Bits: 8
   attackRange: 1
   baseDamage: 10
+  spellPrefab: {fileID: 0}
 --- !u!212 &1912186655
 SpriteRenderer:
   m_ObjectHideFlags: 0
