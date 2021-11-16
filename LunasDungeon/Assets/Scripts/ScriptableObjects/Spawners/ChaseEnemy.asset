@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dc4047fee81ef648b021b1ee2372574, type: 3}
   m_Name: ChaseEnemy
   m_EditorClassIdentifier: 
-  itemToSpawn: {fileID: 1416925027027379542, guid: 121f5689eea35fe4fb00efbdb40c0443, type: 3}
+  itemToSpawn: {fileID: 5951271481333845886, guid: 121f5689eea35fe4fb00efbdb40c0443, type: 3}
   minSpawn: 1
   maxSpawn: 6
