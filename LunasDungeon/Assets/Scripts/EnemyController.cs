@@ -27,6 +27,7 @@ public class EnemyController : MonoBehaviour
     // Animaciones
     public Animator animator;
     private float oldPos = 0.0f;
+    private bool isAttacking = false;
 
     public float range; // rango en el que el enemigo nos puede ver
     public float speed;
@@ -141,6 +142,7 @@ public class EnemyController : MonoBehaviour
                     break;
 
                 case (EnemyType.Ranged):
+                    isAttacking = true;
                     // Crea un hechizo en la posicion del enemigo
                     GameObject spell = Instantiate(spellPrefab, transform.position, Quaternion.identity) as GameObject;
                     spell.GetComponent<SpellController>().GetPlayer(player.transform);
@@ -156,7 +158,9 @@ public class EnemyController : MonoBehaviour
     private IEnumerator CoolDown()
     {
         coolDownAttack = true;
-        yield return new WaitForSeconds(coolDown);
+        yield return new WaitForSeconds(coolDown/2);
+        isAttacking = false;
+        yield return new WaitForSeconds(coolDown/2);
         coolDownAttack = false;
     }
 
@@ -167,9 +171,17 @@ public class EnemyController : MonoBehaviour
         if (oldPos < currentPosition)
         {
             animator.SetFloat("Horizontal", 1);         // Se mueve a la derecha
-        } else
+            if (enemyType == EnemyType.Ranged && isAttacking)
+            {
+                animator.SetFloat("HorizontalAttack", 1);   // Ataca a la derecha
+            }
+        } else if (oldPos > currentPosition)
         {
             animator.SetFloat("Horizontal", 0);         // Se mueve a la izquierda
+            if (enemyType == EnemyType.Ranged && isAttacking)
+            {
+                animator.SetFloat("HorizontalAttack", 0);   // Ataca a la izquierda
+            }
         }
         oldPos = currentPosition;                       // Actualiza la ultima posicion
     }

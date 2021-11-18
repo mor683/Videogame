@@ -135,7 +135,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   attackRange: 1
-  baseDamage: 10
+  baseDamage: 30
   spellPrefab: {fileID: 0}
 --- !u!50 &4852041075961197056
 Rigidbody2D:
